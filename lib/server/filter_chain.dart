@@ -27,6 +27,7 @@ class FilterChain {
 		switch (request.method) {
 			case 'GET': return dispatcher!.doGet(request);
 			case 'POST': return dispatcher!.doPost(request);
+			case 'HEAD': return dispatcher!.doHead(request);
 			case 'PATCH': return dispatcher!.doPatch(request);
 			case 'DELETE': return dispatcher!.doDelete(request);
 			default: return Response.notImplemented(request);

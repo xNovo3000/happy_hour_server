@@ -1,3 +1,9 @@
-## 1.0.0
+## 21.3.17
 
-- Initial version, created by Stagehand
+- Added CORS support for JavaScript fetch
+- Fixed response never close
+- [TODO] Add async print to all sqlite implementations
+
+## 21.3.15
+
+- First stable release

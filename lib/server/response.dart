@@ -17,18 +17,16 @@ abstract class Response {
 	}) {
 		// clear the session because the session is used as a 'container'
 		request.session.clear();
-		// get the response
-		HttpResponse response = request.response;
 		// set the ok code
-		response.statusCode = 200;
+		request.response.statusCode = 200;
 		// remove all the useless headers
-		response.headers.clear();
+		_injectCorsHeaders(request);
 		// set the content type
 		if (contentType != null) {
-			response.headers.contentType = contentType;
+			request.response.headers.contentType = contentType;
 		}
 		// add the custom headers
-		headers.forEach((key, value) => response.headers.add(key, value));
+		headers.forEach((key, value) => request.response.headers.add(key, value));
 		// write the body
 		if (body != null) {
 			if (contentType == jsonContent) {
@@ -36,10 +34,21 @@ abstract class Response {
 			} else if (contentType == jpegContent && body is Uint8List) {
 				body = base64.encode(body);
 			}
-			response.write(body);
+			request.response.write(body);
 		}
 		// close
-		return response.close();
+		return request.response.close();
+	}
+
+	static Future accepted(HttpRequest request) {
+		// clear the session because the session is used as a 'container'
+		request.session.clear();
+		// set the ok code
+		request.response.statusCode = 202;
+		// set cors headers
+		_injectCorsHeaders(request);
+		// return
+		return request.response.close();
 	}
 
 	static Future noContent(HttpRequest request, {Map<String, dynamic> headers = const <String, dynamic>{}}) =>
@@ -67,20 +76,27 @@ abstract class Response {
 	}) {
 		// clear the session because the session is used as a 'container'
 		request.session.clear();
-		// get the response
-		HttpResponse response = request.response;
 		// set the ok code
-		response.statusCode = statusCode;
+		request.response.statusCode = statusCode;
 		// remove all the useless headers
-		response.headers.clear();
+		_injectCorsHeaders(request);
 		// add the custom headers
-		headers.forEach((key, value) => response.headers.add(key, value));
+		headers.forEach((key, value) => request.response.headers.add(key, value));
 		// write the body
 		if (body != null) {
-			response.write(body);
+			request.response.write(body);
 		}
 		// close
-		return response.close();
+		return request.response.close();
+	}
+
+	static void _injectCorsHeaders(HttpRequest request) {
+		request.response.headers.add('Access-Control-Allow-Origin', request.headers['origin'] ?? '*');
+		request.response.headers.add('Access-Control-Allow-Methods', <String>['HEAD', 'GET', 'POST', 'PATCH', 'DELETE']);
+		request.response.headers.add('Access-Control-Allow-Headers', <String>['Authorization', 'Content-Type', 'Access-Control-Allow-Origin']);
+		request.response.headers.add('Access-Control-Expose-Headers', 'Authorization');
+		request.response.headers.add('Access-Control-Max-Age', 1728000);
+		request.response.headers.add('Access-Control-Allow-Credentials', true);
 	}
 
 }

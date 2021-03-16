@@ -7,3 +7,8 @@ build/
 
 # Directory created by dartdoc
 doc/api/
+
+# my directories
+data/images/*
+data/persistance/*
+data/script/*

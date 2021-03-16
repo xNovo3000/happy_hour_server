@@ -19,13 +19,18 @@ class Router {
 			..dispatcher = dispatcher);
 	}
 
-	Future handle(HttpRequest request) async {
+	Future handle(HttpRequest request) {
+		// if there is a cors request, send accepted
+		if (request.method == 'OPTIONS') {
+			return Response.accepted(request);
+		}
+		// handle
 		for (FilterChain filterChain in _routes) {
 			if (request.uri.path.startsWith(filterChain.path)) {
-				return await filterChain.handle(request);
+				return filterChain.handle(request);
 			}
 		}
-		return await Response.notImplemented(request);
+		return Response.notImplemented(request);
 	}
 
 }

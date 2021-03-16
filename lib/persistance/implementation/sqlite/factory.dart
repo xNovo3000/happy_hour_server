@@ -1,5 +1,6 @@
 import 'dart:io';
 
+import 'package:happy_hour_server/server/logger.dart';
 import 'package:sqlite3/sqlite3.dart';
 
 import '../../connection/dao/auction.dart';
@@ -14,13 +15,12 @@ import 'dao/user.dart';
 
 class SqliteDaoFactory extends DaoFactory {
 
-	SqliteDaoFactory() : _database = sqlite3.open('data/db.sl3') {
-		List<String> startActions = File('data/script/start.sql').readAsStringSync().split(';');
+	SqliteDaoFactory() : _database = sqlite3.open('data/persistance/db.sl3') {
+		List<String> startActions = File('data/script/v1.sql').readAsStringSync().split(';');
 		try {
 			startActions.forEach((action) => _database.execute(action));
 		} on SqliteException catch (e) {
-			// TODO: print error in a logger
-			print(e);
+			Logger.e(e);
 		}
 		_userDao = SqliteUserDao(_database);
 		_authDao = SqliteAuthDao(_database);
