@@ -11,6 +11,7 @@ class FilterChain {
 	RequestDispatcher? dispatcher;
 
 	Future handle(HttpRequest request) {
+		print('test');
 		// filter the request
 		bool _tmp = false;
 		for (RequestFilter filter in filters) {
