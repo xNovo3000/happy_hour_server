@@ -10,22 +10,23 @@ class Auth extends Entity {
 
 	factory Auth.fromServer(final Map<String, dynamic> map) => Auth(
 		map['ID'], map['Username'], map['Password'], map['Salt'],
-		map['Admin'] != 0 ? true : false, DaoFactory.instance.userDao.getFromInitial(map['UserInitial'])
+		map['Admin'] != 0 ? true : false, DaoFactory.instance.userDao.get(map['UserID'])
 	);
 
 	factory Auth.exp(int id, String username, String password, bool admin, int? userID) {
 		Random random = Random.secure();
 		int salt = random.nextInt(0x7FFFFFFF);
 		int password_hash = password.hashCode ^ salt;
-		return Auth(id, username, password_hash, salt, admin, DaoFactory.instance.userDao.getFromInitial(userID));
+		return Auth(id, username, password_hash, salt, admin, DaoFactory.instance.userDao.get(userID));
 	}
 
 	factory Auth.fromJson(final Map<String, dynamic> map, final Random random) {
 		int salt = random.nextInt(0x7FFFFFFF);
 		int password = map['Password'].hashCode ^ salt;
+		int? userID = map['UserID'];
 		return Auth(
 			map['ID'] ?? -1, map['Username'], password, salt,
-			map['Admin'], DaoFactory.instance.userDao.getFromInitial(map['UserInitial'])
+			map['Admin'], userID != null ? DaoFactory.instance.userDao.get(map['UserID'])! : null
 		);
 	}
 
@@ -44,8 +45,8 @@ class Auth extends Entity {
 	List<String> get primaryKeys => <String>['ID'];
 	List<dynamic> get primaryValues => [id];
 	
-	List<String> get keys => <String>['Username', 'Password', 'Salt', 'Admin', 'UserInitial'];
-	List<dynamic> get values => [username, password, salt, admin ? 1 : 0, user?.initial];
+	List<String> get keys => <String>['Username', 'Password', 'Salt', 'Admin', 'UserID'];
+	List<dynamic> get values => [username, password, salt, admin ? 1 : 0, user?.id];
 
 	@override bool operator ==(Object o) => o is Auth ? o.id == id : false;
 	@override int get hashCode => id.hashCode;

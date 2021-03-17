@@ -10,11 +10,10 @@ class SqliteUserDao extends SqliteBaseDao<User> implements UserDao {
 	SqliteUserDao(final Database database) :
 		_get = database.prepare('SELECT * FROM User WHERE ID = ?', persistent: true),
 		_getAll = database.prepare('SELECT * FROM User', persistent: true),
-		_insert = database.prepare('INSERT INTO User VALUES (null,?,?,?)', persistent: true),
-		_update = database.prepare('UPDATE User SET Initial = ?, Name = ?, Surname = ? WHERE ID = ?', persistent: true),
+		_insert = database.prepare('INSERT INTO User VALUES (?,?,?)', persistent: true),
+		_update = database.prepare('UPDATE User SET Name = ?, Surname = ? WHERE ID = ?', persistent: true),
 		_delete = database.prepare('DELETE FROM User WHERE ID = ?', persistent: true),
 		_count = database.prepare('SELECT COUNT(*) FROM User', persistent: true),
-		_getFromInitial = database.prepare('SELECT * FROM User WHERE Initial = ?', persistent: true),
 		super(database);
 
 	final PreparedStatement _get;
@@ -23,9 +22,13 @@ class SqliteUserDao extends SqliteBaseDao<User> implements UserDao {
 	final PreparedStatement _update;
 	final PreparedStatement _delete;
 	final PreparedStatement _count;
-	final PreparedStatement _getFromInitial;
 	
-	User? get(int id) {
+	User? get(int? id) {
+		// null check
+		if (id == null) {
+			return null;
+		}
+		// ok
 		try {
 			ResultSet resultSet = _get.select([id]);
 			return resultSet.length > 0 ? User.fromServer(resultSet.first) : null;
@@ -53,7 +56,7 @@ class SqliteUserDao extends SqliteBaseDao<User> implements UserDao {
 	@override
 	bool insert(User user) {
 		try {
-			_insert.execute(user.values);
+			_insert.execute(user.primaryValues..addAll(user.values));
 			return database.getUpdatedRows() > 0;
 		} on SqliteException catch (e) {
 			Logger.e(e);
@@ -91,20 +94,6 @@ class SqliteUserDao extends SqliteBaseDao<User> implements UserDao {
 		} on SqliteException catch (e) {
 			Logger.e(e);
 			return -1;
-		}
-	}
-
-	@override
-	User? getFromInitial(int? initial) {
-		if (initial == null) {
-			return null;
-		}
-		try {
-			ResultSet resultSet = _getFromInitial.select([initial]);
-			return resultSet.length > 0 ? User.fromServer(resultSet.first) : null;
-		} on SqliteException catch (e) {
-			Logger.e(e);
-			return null;
 		}
 	}
 

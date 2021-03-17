@@ -1,3 +1,23 @@
+HEAD http://localhost:8080/api/v2 HTTP/1.1
+Authorization: Basic c.fontana:elis
+###
+GET http://localhost:8080/api/v2/bids?auctionID=1 HTTP/1.1
+Authorization: Basic c.fontana:elis
+###
+GET http://localhost:8080/api/v2/auction?expiresAfter=0 HTTP/1.1
+Authorization: Basic c.fontana:elis
+###
+POST http://localhost:8080/api/v2/auth HTTP/1.1
+
+{
+    "Username": "c.fontana",
+    "Password": "elis",
+    "Admin": true,
+    "UserID": null
+}
+
+### V1 DOWN HERE
+
 GET http://localhost:8080/api/v1/auction/1 HTTP/1.1
 Authorization: Basic c.fontana:pass
 ###
@@ -13,8 +33,8 @@ Authorization: Basic c.fontana:pass
 OPTIONS http://localhost:8080/ HTTP/1.1
 Origin: localhost
 ###
-POST http://localhost:8080/api/v1/auction HTTP/1.1
-Authorization: Basic admin:admin
+POST http://localhost:8080/api/v2/auction HTTP/1.1
+Authorization: Basic c.fontana:elis
 
 {
     "Name": "We zoccola",

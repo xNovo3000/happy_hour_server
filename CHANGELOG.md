@@ -1,9 +1,5 @@
-## 21.3.17
+## 21.3.17-1
 
-- Added CORS support for JavaScript fetch
-- Fixed response never close
-- [TODO] Add async print to all sqlite implementations
-
-## 21.3.15
-
-- First stable release
+- Added V2 API: more lightweight and less chaotic
+- [TODO] More lightweight server dispatcher
+- [TODO] Get image from the server

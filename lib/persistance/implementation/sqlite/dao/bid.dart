@@ -14,11 +14,11 @@ class SqliteBidDao extends SqliteBaseDao<Bid> implements BidDao {
 		_get = database.prepare('SELECT * FROM Bid WHERE ID = ?', persistent: true),
 		_getAll = database.prepare('SELECT * FROM Bid', persistent: true),
 		_insert = database.prepare('INSERT INTO Bid VALUES (null,?,?,?)', persistent: true),
-		_update = database.prepare('UPDATE Bid SET AuctionID = ?, UserInitial = ?, Amount = ? WHERE ID = ?', persistent: true),
+		_update = database.prepare('UPDATE Bid SET AuctionID = ?, UserID = ?, Amount = ? WHERE ID = ?', persistent: true),
 		_delete = database.prepare('DELETE FROM Bid WHERE ID = ?', persistent: true),
 		_count = database.prepare('SELECT COUNT(*) FROM Bid', persistent: true),
 		_getFromAuction = database.prepare('SELECT * FROM Bid WHERE AuctionID = ?', persistent: true),
-		_getFromUser = database.prepare('SELECT * FROM Bid WHERE UserInitial = ?', persistent: true),
+		_getFromUser = database.prepare('SELECT * FROM Bid WHERE UserID = ?', persistent: true),
 		super(database);
 	
 	final PreparedStatement _get;
@@ -30,7 +30,12 @@ class SqliteBidDao extends SqliteBaseDao<Bid> implements BidDao {
 	final PreparedStatement _getFromAuction;
 	final PreparedStatement _getFromUser;
 
-	Bid? get(int id) {
+	Bid? get(int? id) {
+		// null check
+		if (id == null) {
+			return null;
+		}
+		// ok
 		try {
 			ResultSet resultSet = _get.select([id]);
 			return resultSet.length > 0 ? Bid.fromServer(resultSet.first) : null;
@@ -123,7 +128,7 @@ class SqliteBidDao extends SqliteBaseDao<Bid> implements BidDao {
 			return <Bid>[];
 		}
 		try {
-			ResultSet resultSet = _getFromUser.select([user.initial]);
+			ResultSet resultSet = _getFromUser.select([user.id]);
 			return List<Bid>.generate(
 				resultSet.length,
 				(index) => Bid.fromServer(resultSet.elementAt(index)),
