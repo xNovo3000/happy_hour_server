@@ -41,6 +41,32 @@ class ApiV1AuctionID extends RequestDispatcher {
 	}
 
 	@override
+	Future doPost(HttpRequest request) {
+		/// check if the id exists
+		int id;
+		try {
+			id = int.parse(request.uri.pathSegments[3]);
+		} catch (e) {
+			return Response.badRequest(request);
+		}
+		// get the auction
+		Auction? auction = DaoFactory.instance.auctionDao.get(id);
+		// check if auction is wanted or other
+		if (request.uri.pathSegments.length == 4) {
+			if (auction != null) {
+				return Response.ok(request, contentType: Response.jsonContent, body: auction);
+			} else {
+				return Response.noContent(request);
+			}
+		} else { // there is another
+			switch (request.uri.pathSegments[4]) {
+				case 'bids': _bids.auction = auction; return _bids.doGet(request);
+				default: return Response.notImplemented(request);
+			}
+		}
+	}
+
+	@override
 	Future doDelete(HttpRequest request) {
 		// check if the id exists
 		int id;
