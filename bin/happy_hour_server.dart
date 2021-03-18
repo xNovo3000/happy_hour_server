@@ -8,9 +8,10 @@ import 'api/v2.dart';
 import 'api/v2/auction.dart';
 import 'api/v2/auth.dart';
 import 'api/v2/bid.dart';
+import 'api/v2/image.dart';
 import 'api/v2/user.dart';
 
-class MyServer extends Server {
+class MyServer extends ServerV2 {
 
 	@override
 	void onInit() {
@@ -22,13 +23,14 @@ class MyServer extends Server {
 		print(DaoFactory.instance.auctionDao.getAll());
 		print(DaoFactory.instance.bidDao.getAll());
 
-		router.addRoute('/api/v2/auth', dispatcher: ApiV2Auth());
-		router.addRoute('/api/v2/auction', dispatcher: ApiV2Auction());
-		router.addRoute('/api/v2/bid', dispatcher: ApiV2Bid());
-		router.addRoute('/api/v2/user', dispatcher: ApiV2User());
-		router.addRoute('/api/v2', dispatcher: ApiV2());
+		router.addRoute('/api/v2/auth', ApiV2Auth());
+		router.addRoute('/api/v2/auction', ApiV2Auction());
+		router.addRoute('/api/v2/bid', ApiV2Bid());
+		router.addRoute('/api/v2/image', ApiV2Image());
+		router.addRoute('/api/v2/user', ApiV2User());
+		router.addRoute('/api/v2', ApiV2());
 	}
 
 }
 
-Future main() => runServer(MyServer());
+Future main() => runServerV2(MyServer());

@@ -4,8 +4,11 @@ Authorization: Basic c.fontana:elis
 GET http://localhost:8080/api/v2/bids?auctionID=1 HTTP/1.1
 Authorization: Basic c.fontana:elis
 ###
-GET http://localhost:8080/api/v2/auction?expiresAfter=0 HTTP/1.1
+GET http://localhost:8080/api/v2/image?auctionID=2 HTTP/1.1
 Authorization: Basic c.fontana:elis
+###
+OPTIONS http://localhost:8080/api/v2 HTTP/1.1
+Origin: localhost
 ###
 POST http://localhost:8080/api/v2/auth HTTP/1.1
 
@@ -29,9 +32,6 @@ Authorization: Basic c.fontana:pass
 ###
 GET http://localhost:8080/api/v1/user/139 HTTP/1.1
 Authorization: Basic c.fontana:pass
-###
-OPTIONS http://localhost:8080/ HTTP/1.1
-Origin: localhost
 ###
 POST http://localhost:8080/api/v2/auction HTTP/1.1
 Authorization: Basic c.fontana:elis

@@ -4,19 +4,15 @@ import 'dart:math';
 
 import 'package:happy_hour_server/persistance/connection/factory.dart';
 import 'package:happy_hour_server/persistance/model/auth.dart';
-import 'package:happy_hour_server/persistance/model/user.dart';
-import 'package:happy_hour_server/server/logger.dart';
 import 'package:happy_hour_server/server/request_dispatcher.dart';
 import 'package:happy_hour_server/server/request_filter.dart';
 import 'package:happy_hour_server/server/response.dart';
 
-import '../../filters/admin.dart';
 import '../../filters/v2/logged.dart';
 
 class ApiV2Auth extends RequestDispatcher {
 
 	final RequestFilter logged = FilterLoggedV2();
-	final RequestFilter _admin = FilterAdmin();
 	final Random random = Random.secure();
 
 	@override

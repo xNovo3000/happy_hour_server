@@ -29,7 +29,7 @@ class SqliteAuctionDao extends SqliteBaseDao<Auction> implements AuctionDao {
 	final PreparedStatement _getAfterDate;
 
 	@override
-	Auction? get(int? id) {
+	Auction? get(int id) {
 		try {
 			ResultSet resultSet = _get.select([id]);
 			return resultSet.length > 0 ? Auction.fromServer(resultSet.first) : null;

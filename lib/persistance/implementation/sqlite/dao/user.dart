@@ -23,12 +23,8 @@ class SqliteUserDao extends SqliteBaseDao<User> implements UserDao {
 	final PreparedStatement _delete;
 	final PreparedStatement _count;
 	
-	User? get(int? id) {
-		// null check
-		if (id == null) {
-			return null;
-		}
-		// ok
+	@override
+	User? get(int id) {
 		try {
 			ResultSet resultSet = _get.select([id]);
 			return resultSet.length > 0 ? User.fromServer(resultSet.first) : null;

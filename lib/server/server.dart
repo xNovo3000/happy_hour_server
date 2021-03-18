@@ -7,3 +7,11 @@ abstract class Server {
 	void onInit();
 
 }
+
+abstract class ServerV2 {
+
+	final RouterV2 router = RouterV2();
+
+	void onInit();
+
+}

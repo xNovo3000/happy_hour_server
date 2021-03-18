@@ -30,12 +30,8 @@ class SqliteBidDao extends SqliteBaseDao<Bid> implements BidDao {
 	final PreparedStatement _getFromAuction;
 	final PreparedStatement _getFromUser;
 
-	Bid? get(int? id) {
-		// null check
-		if (id == null) {
-			return null;
-		}
-		// ok
+	@override
+	Bid? get(int id) {
 		try {
 			ResultSet resultSet = _get.select([id]);
 			return resultSet.length > 0 ? Bid.fromServer(resultSet.first) : null;

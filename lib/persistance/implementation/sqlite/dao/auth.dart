@@ -26,12 +26,8 @@ class SqliteAuthDao extends SqliteBaseDao<Auth> implements AuthDao {
 	final PreparedStatement _count;
 	final PreparedStatement _getFromUsername;
 
-	Auth? get(int? id) {
-		// null check
-		if (id == null) {
-			return null;
-		}
-		// ok
+	@override
+	Auth? get(int id) {
 		try {
 			ResultSet resultSet = _get.select([id]);
 			return resultSet.length > 0 ? Auth.fromServer(resultSet.first) : null;
