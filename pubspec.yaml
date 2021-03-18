@@ -1,6 +1,6 @@
 name: happy_hour_server
 description: ELIS Happy Hour server
-version: 21.3.18
+version: 21.3.18+1
 
 environment:
   sdk: '>=2.12.1 <3.0.0'

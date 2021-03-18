@@ -1,16 +1,16 @@
-HEAD http://localhost:8080/api/v2 HTTP/1.1
+HEAD https://localhost:443/api/v2 HTTP/1.1
 Authorization: Basic c.fontana:elis
 ###
-GET http://localhost:8080/api/v2/bids?auctionID=1 HTTP/1.1
+GET https://localhost:443/api/v2/bids?auctionID=1 HTTP/1.1
 Authorization: Basic c.fontana:elis
 ###
-GET http://localhost:8080/api/v2/image?auctionID=2 HTTP/1.1
+GET https://localhost:443/api/v2/image?auctionID=2 HTTP/1.1
 Authorization: Basic c.fontana:elis
 ###
-OPTIONS http://localhost:8080/api/v2 HTTP/1.1
+OPTIONS https://localhost:443/api/v2 HTTP/1.1
 Origin: localhost
 ###
-POST http://localhost:8080/api/v2/auth HTTP/1.1
+POST https://localhost:443/api/v2/auth HTTP/1.1
 
 {
     "Username": "c.fontana",
@@ -21,19 +21,19 @@ POST http://localhost:8080/api/v2/auth HTTP/1.1
 
 ### V1 DOWN HERE
 
-GET http://localhost:8080/api/v1/auction/1 HTTP/1.1
+GET https://localhost:443/api/v1/auction/1 HTTP/1.1
 Authorization: Basic c.fontana:pass
 ###
-GET http://localhost:8080/api/v1/auction/1/image HTTP/1.1
+GET https://localhost:443/api/v1/auction/1/image HTTP/1.1
 Authorization: Basic c.fontana:pass
 ###
-GET http://localhost:8080/api/v1/auctions?expiresAfter=0 HTTP/1.1
+GET https://localhost:443/api/v1/auctions?expiresAfter=0 HTTP/1.1
 Authorization: Basic c.fontana:pass
 ###
-GET http://localhost:8080/api/v1/user/139 HTTP/1.1
+GET https://localhost:443/api/v1/user/139 HTTP/1.1
 Authorization: Basic c.fontana:pass
 ###
-POST http://localhost:8080/api/v2/auction HTTP/1.1
+POST https://localhost:443/api/v2/auction HTTP/1.1
 Authorization: Basic c.fontana:elis
 
 {

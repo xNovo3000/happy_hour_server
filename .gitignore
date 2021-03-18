@@ -11,3 +11,7 @@ doc/api/
 # my directories
 data/images/*
 data/persistance/*
+data/certificates/*
+
+# protect .env file
+.env

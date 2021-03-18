@@ -1,3 +1,5 @@
+import 'dart:io';
+
 import 'package:happy_hour_server/persistance/connection/factory.dart';
 import 'package:happy_hour_server/persistance/model/auth.dart';
 import 'package:happy_hour_server/persistance/model/user.dart';
@@ -15,6 +17,8 @@ class MyServer extends ServerV2 {
 
 	@override
 	void onInit() {
+		super.onInit(); // load env
+
 		DaoFactory.instance.authDao.insert(Auth.exp(1, 'admin', 'admin', true, null));
 		DaoFactory.instance.userDao.insert(User(139, 'Ciro', 'Fontana'));
 
@@ -30,6 +34,11 @@ class MyServer extends ServerV2 {
 		router.addRoute('/api/v2/user', ApiV2User());
 		router.addRoute('/api/v2', ApiV2());
 	}
+
+	@override
+	SecurityContext? get securityContext => SecurityContext()
+		..useCertificateChain('data/certificates/cert.pem')
+		..usePrivateKey('data/certificates/key.pem', password: env['Passphrase']);
 
 }
 

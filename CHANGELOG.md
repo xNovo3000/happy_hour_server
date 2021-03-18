@@ -1,3 +1,9 @@
+## 21.3.18+1
+
+- Removed V1 API, only filters cannot be removed because they are in use in V2
+- Added env support
+- Added HTTPS support
+
 ## 21.3.18
 
 - Dart 2.12.1 required
