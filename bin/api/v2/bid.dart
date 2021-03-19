@@ -10,13 +10,13 @@ import 'package:happy_hour_server/server/request_dispatcher.dart';
 import 'package:happy_hour_server/server/request_filter.dart';
 import 'package:happy_hour_server/server/response.dart';
 
-import '../../filters/user.dart';
+import '../../filters/v2/has_user.dart';
 import '../../filters/v2/logged.dart';
 
 class ApiV2Bid extends RequestDispatcher {
 
 	final RequestFilter logged = FilterLoggedV2();
-	final RequestFilter _user = FilterUser();
+	final RequestFilter _user = FilterAccountHasUser();
 
 	@override
 	Future doGet(HttpRequest request) {
@@ -79,8 +79,6 @@ class ApiV2Bid extends RequestDispatcher {
 		if (!_user.doFilter(request)) {
 			return _user.onError(request);
 		}
-		// get the userID
-		int userID = (request.session['Auth'] as Auth).user!.id;
 		// get the new bid
 		Bid newBid;
 		try {
@@ -88,6 +86,8 @@ class ApiV2Bid extends RequestDispatcher {
 		} catch (e) {
 			return Response.badRequest(request);
 		}
+		// set the user
+		newBid.user = (request.session['Auth'] as Auth).user!;
 		// check if the amount is the max possible
 		double amount = 0.99;
 		DaoFactory.instance.bidDao.getFromAuction(newBid.auction)

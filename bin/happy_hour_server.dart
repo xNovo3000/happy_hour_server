@@ -19,8 +19,7 @@ class MyServer extends ServerV2 {
 	void onInit() {
 		super.onInit(); // load env
 
-		DaoFactory.instance.authDao.insert(Auth.exp(1, 'admin', 'admin', true, null));
-		DaoFactory.instance.userDao.insert(User(139, 'Ciro', 'Fontana'));
+		DaoFactory.instance.authDao.insert(Auth.exp(1, 'admin', 'admin', 1, null));
 
 		print(DaoFactory.instance.userDao.getAll());
 		print(DaoFactory.instance.authDao.getAll());

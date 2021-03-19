@@ -8,13 +8,13 @@ import 'package:happy_hour_server/server/request_dispatcher.dart';
 import 'package:happy_hour_server/server/request_filter.dart';
 import 'package:happy_hour_server/server/response.dart';
 
-import '../../filters/admin.dart';
 import '../../filters/v2/logged.dart';
+import '../../filters/v2/type_admin.dart';
 
 class ApiV2Auction extends RequestDispatcher {
 
 	final RequestFilter logged = FilterLoggedV2();
-	final RequestFilter admin = FilterAdmin();
+	final RequestFilter admin = FilterAccountTypeAdmin();
 
 	@override
 	Future doGet(HttpRequest request) {
@@ -94,7 +94,7 @@ class ApiV2Auction extends RequestDispatcher {
 				..createSync(recursive: true)
 				..writeAsBytesSync(imageData);
 			return Response.ok(request);
-		} on FileSystemException catch (e) {
+		} on FileSystemException {
 			DaoFactory.instance.auctionDao.delete(auction);
 			return Response.internalServerError(request);
 		}

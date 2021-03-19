@@ -39,7 +39,7 @@ class ApiV2Auth extends RequestDispatcher {
 		// get the auth
 		Auth auth = request.session['Auth'];
 		// ok, dispatch
-		if (auth.admin || auth.username == username) {
+		if (auth.type == 1 || auth.username == username) {
 			Auth? dbAuth = DaoFactory.instance.authDao.getFromUsername(username);
 			if (dbAuth != null) {
 				return Response.ok(request, contentType: Response.jsonContent, body: dbAuth);
@@ -64,8 +64,8 @@ class ApiV2Auth extends RequestDispatcher {
 		} catch (e) {
 			return Response.badRequest(request);
 		}
-		// set admin false for safety reasons
-		auth.admin = false;
+		// set type 0 for safety reasons
+		auth.type = 0;
 		// the user exists, try to update
 		if (DaoFactory.instance.authDao.insert(auth)) {
 			return Response.ok(request);

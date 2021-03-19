@@ -1,3 +1,8 @@
+## 21.3.19
+
+- Changed "Admin" to "Type"
+- More account types can be used
+
 ## 21.3.18+1
 
 - Removed V1 API, only filters cannot be removed because they are in use in V2

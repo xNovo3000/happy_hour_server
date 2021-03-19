@@ -12,7 +12,7 @@ class SqliteAuthDao extends SqliteBaseDao<Auth> implements AuthDao {
 		_get = database.prepare('SELECT * FROM Auth WHERE ID = ?', persistent: true),
 		_getAll = database.prepare('SELECT * FROM Auth', persistent: true),
 		_insert = database.prepare('INSERT INTO Auth VALUES (null,?,?,?,?,?)', persistent: true),
-		_update = database.prepare('UPDATE Auth SET Username = ?, Password = ?, Salt = ?, Admin = ?, UserID = ? WHERE ID = ?', persistent: true),
+		_update = database.prepare('UPDATE Auth SET Username = ?, Password = ?, Salt = ?, Type = ?, UserID = ? WHERE ID = ?', persistent: true),
 		_delete = database.prepare('DELETE FROM Auth WHERE ID = ?', persistent: true),
 		_count = database.prepare('SELECT COUNT(*) FROM Auth', persistent: true),
 		_getFromUsername = database.prepare('SELECT * FROM Auth WHERE Username = ?', persistent: true),

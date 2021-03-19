@@ -4,7 +4,7 @@ import 'package:happy_hour_server/server/response.dart';
 
 abstract class RequestDispatcher {
 
-	// TODO: MAYBE INSERT FILTERS FOR EACH REQUEST (?)
+	// [TODO]: MAYBE INSERT FILTERS FOR EACH REQUEST (?)
 	Future handle(HttpRequest request) {
 		switch (request.method) {
 			case 'GET': return doGet(request);
