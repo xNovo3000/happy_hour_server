@@ -34,10 +34,12 @@ class MyServer extends ServerV2 {
 		router.addRoute('/api/v2', ApiV2());
 	}
 
+	/*
 	@override
 	SecurityContext? get securityContext => SecurityContext()
 		..useCertificateChain('data/certificates/cert.pem')
 		..usePrivateKey('data/certificates/key.pem', password: env['Passphrase']);
+	*/
 
 }
 

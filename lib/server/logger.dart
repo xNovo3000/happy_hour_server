@@ -4,4 +4,8 @@ abstract class Logger {
 		print('[ERR] $e');
 	}
 
+	static Future<Null> i(e) async {
+		print('[INFO] $e');
+	}
+
 }

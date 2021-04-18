@@ -33,6 +33,7 @@ class ApiV2Auction extends RequestDispatcher {
 		switch (key) {
 			case 'id': return _doGetByID(request, int.tryParse(value));
 			case 'expiresAfter': return _doGetByExpiresAfter(request, int.tryParse(value));
+			case 'query': return _doGetByName(request, value);
 			default: return super.doGet(request);
 		}
 	}
@@ -60,6 +61,15 @@ class ApiV2Auction extends RequestDispatcher {
 		final DateTime date = DateTime.fromMillisecondsSinceEpoch(timestamp, isUtc: true);
 		// get the user
 		return Response.ok(request, contentType: Response.jsonContent, body: DaoFactory.instance.auctionDao.getAfterDate(date));
+	}
+
+	Future _doGetByName(HttpRequest request, String name) {
+		// null check
+		if (name == '') {
+			return Response.badRequest(request);
+		}
+		// ok, continue
+		return Response.ok(request, contentType: Response.jsonContent, body: DaoFactory.instance.auctionDao.getByName(name));
 	}
 
 	@override

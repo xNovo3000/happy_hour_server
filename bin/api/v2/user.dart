@@ -67,7 +67,7 @@ class ApiV2User extends RequestDispatcher {
 		} catch (e) {
 			return Response.badRequest(request);
 		}
-		// the user exists, try to update
+		// try to insert the user
 		if (DaoFactory.instance.userDao.insert(user)) {
 			return Response.ok(request);
 		} else {
@@ -92,7 +92,7 @@ class ApiV2User extends RequestDispatcher {
 		} catch (e) {
 			return Response.badRequest(request);
 		}
-		// the user exists, try to update
+		// try to update the user
 		if (DaoFactory.instance.userDao.update(user)) {
 			return Response.ok(request);
 		} else {

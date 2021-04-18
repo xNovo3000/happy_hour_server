@@ -3,6 +3,8 @@ import 'dart:io';
 
 import 'dart:typed_data';
 
+import 'package:happy_hour_server/server/logger.dart';
+
 abstract class Response {
 
 	const Response._();
@@ -36,6 +38,8 @@ abstract class Response {
 			}
 			request.response.write(body);
 		}
+		// print the request
+		_printDebugData(request);
 		// close
 		return request.response.close();
 	}
@@ -47,6 +51,8 @@ abstract class Response {
 		request.response.statusCode = 202;
 		// set cors headers
 		_injectCorsHeaders(request);
+		// print the request
+		_printDebugData(request);
 		// return
 		return request.response.close();
 	}
@@ -86,6 +92,8 @@ abstract class Response {
 		if (body != null) {
 			request.response.write(body);
 		}
+		// print the request
+		_printDebugData(request);
 		// close
 		return request.response.close();
 	}
@@ -97,6 +105,10 @@ abstract class Response {
 		request.response.headers.add('Access-Control-Expose-Headers', 'Authorization');
 		request.response.headers.add('Access-Control-Max-Age', 1728000);
 		request.response.headers.add('Access-Control-Allow-Credentials', true);
+	}
+
+	static void _printDebugData(HttpRequest request) {
+		Logger.i('Method: ${request.method} - Uri: ${request.uri} - Response status code: ${request.response.statusCode}');
 	}
 
 }

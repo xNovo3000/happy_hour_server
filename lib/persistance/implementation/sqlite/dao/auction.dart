@@ -18,6 +18,7 @@ class SqliteAuctionDao extends SqliteBaseDao<Auction> implements AuctionDao {
 		_delete = database.prepare('DELETE FROM Auction WHERE ID = ?', persistent: true),
 		_count = database.prepare('SELECT COUNT(*) FROM Auction', persistent: true),
 		_getAfterDate = database.prepare('SELECT * FROM Auction WHERE Expires > ? ORDER BY Expires ASC LIMIT $GET_AFTER_DATE_LIMIT', persistent: true),
+		_getByName = database.prepare('SELECT * FROM Auction WHERE Name LIKE ? ORDER BY Expires ASC LIMIT $GET_AFTER_DATE_LIMIT', persistent: true),
 		super(database);
 
 	final PreparedStatement _get;
@@ -27,6 +28,7 @@ class SqliteAuctionDao extends SqliteBaseDao<Auction> implements AuctionDao {
 	final PreparedStatement _delete;
 	final PreparedStatement _count;
 	final PreparedStatement _getAfterDate;
+	final PreparedStatement _getByName;
 
 	@override
 	Auction? get(int id) {
@@ -105,6 +107,24 @@ class SqliteAuctionDao extends SqliteBaseDao<Auction> implements AuctionDao {
 		}
 		try {
 			ResultSet resultSet = _getAfterDate.select([date.millisecondsSinceEpoch]);
+			return List<Auction>.generate(
+				resultSet.length,
+				(index) => Auction.fromServer(resultSet.elementAt(index)),
+				growable: false
+			);
+		} on SqliteException catch (e) {
+			Logger.e(e);
+			return <Auction>[];
+		}
+	}
+
+	@override
+	List<Auction> getByName(String name) {
+		if (name == '') {
+			return <Auction>[];
+		}
+		try {
+			ResultSet resultSet = _getByName.select([name]);
 			return List<Auction>.generate(
 				resultSet.length,
 				(index) => Auction.fromServer(resultSet.elementAt(index)),

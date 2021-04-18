@@ -5,4 +5,6 @@ abstract class AuctionDao implements BaseDao<Auction> {
 	
 	List<Auction> getAfterDate(DateTime? date);
 
+	List<Auction> getByName(String name);
+
 }
